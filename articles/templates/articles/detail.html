@@ -1,0 +1,30 @@
+{% extends 'base.html' %}
+
+{% block title %}{{article.article_title}}{% endblock %}
+
+{% block content %}
+<a href="{% url 'articles:index' %}">На главную</a>
+<h2>{{article.article_title}}</h2>
+
+<p>{{article.article_text}}</p>
+
+<em>{{article.pub_date}}</em>
+
+<hr>
+	{% for comment in comments %}
+		<div>
+			<p>{{comment.author_name}}</p>
+			<p>{{comment.comment_text}}</p>
+			<hr>
+		</div>
+	{% endfor %}
+
+
+<form action="{% url 'articles:leave_comment' article.id %}" method="POST">
+	{% csrf_token %}
+	<input type="text" required placeholder="Ваше имя" name="name"><br>
+	<textarea name="text" placeholder="Текст комментария" cols="30" rows="10"></textarea><br>
+	<button type="submit">Оставить комментарий</button>
+</form>
+
+{% endblock %}
